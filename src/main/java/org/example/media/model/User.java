@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.validation.constraints.NotBlank;
+
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,10 +18,11 @@ public class User {
     @Id
     private String id;
 
+    @NotBlank(message = "Username is required")
     private String username;
 
+    @NotBlank(message = "Password is required")
     private String password;
 
-    // Можно добавить поле роли при необходимости:
-    // private String role;
+    private String role = "USER"; // по умолчанию
 }
