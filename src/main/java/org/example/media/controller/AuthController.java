@@ -1,10 +1,10 @@
 package org.example.media.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.example.media.model.AuthRequest;
-import org.example.media.model.AuthResponse;
+import org.example.media.dto.AuthRequest;
+import org.example.media.dto.AuthResponse;
 import org.example.media.model.User;
-import org.example.media.security.JwtUtil;
+import org.example.media.security.JwtService;
 import org.example.media.service.UserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,27 +13,27 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
-    private final JwtUtil jwtUtil;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @PostMapping("/register")
-    public ResponseEntity<AuthResponse> register(@RequestBody User user) {
+    public ResponseEntity<?> register(@RequestBody User user) {
         userService.register(user);
-        String token = jwtUtil.generateToken(user.getUsername());
+        String token = jwtService.generateToken(user.getUsername());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
         Authentication auth = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
-        String token = jwtUtil.generateToken(request.getUsername());
+        String token = jwtService.generateToken(request.getUsername());
         return ResponseEntity.ok(new AuthResponse(token));
     }
 }

@@ -1,4 +1,4 @@
-package org.example.media.model;
+package org.example.media.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

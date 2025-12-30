@@ -1,8 +1,13 @@
 spring:
   data:
     mongodb:
-      uri: mongodb://localhost:27017/media_db
+      uri: mongodb://mongodb:27017/media_db
   application:
     name: media-cms
+
+jwt:
+  secret: your-very-secret-key
+  expiration: 86400000
+
 server:
   port: 8080
